@@ -92,11 +92,30 @@
       <li>Educational Content for Beginners</li>
     </ul>
   </section>
+  
+<section>
+    <h2>Live Prices</h2>
+    <div id="prices">Loading...</div>
+  </section>
+  
   <section>
     <h2>Get in Touch</h2>
     <p>Have a project or question — reach out directly.</p>
     <a href="https://x.com/0xDani" class="btn">Follow on X</a>
   </section>
   <footer>© 2026 Daniel · DeFi & Web3</footer>
+
+  <script>
+    fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("prices").innerHTML = `
+          <p>₿ Bitcoin: <strong style="color:#00e5ff">$${data.bitcoin.usd.toLocaleString()}</strong></p>
+          <p style="margin-top:10px">Ξ Ethereum: <strong style="color:#00e5ff">$${data.ethereum.usd.toLocaleString()}</strong></p>
+        `;
+      });
+  </script>
+  
 </body>
 </html>
+
