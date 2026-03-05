@@ -321,6 +321,60 @@
     .calc-result-row span { color: var(--muted); font-size: 0.9em; }
     .calc-result-row strong { font-family: 'Sora', sans-serif; color: var(--accent); font-size: 1em; }
 
+    /* ARTICLES */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .article-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .article-card:hover {
+      box-shadow: 0 4px 20px rgba(108,71,255,0.1);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .article-tag {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75em;
+      font-weight: 600;
+      width: fit-content;
+    }
+    .article-card h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1em;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+    .article-card p {
+      color: var(--muted);
+      font-size: 0.88em;
+      line-height: 1.6;
+      flex: 1;
+    }
+    .article-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+    }
+    .article-date { color: var(--muted); font-size: 0.8em; }
+    .article-link { color: var(--accent); font-size: 0.85em; font-weight: 600; }
+
     /* CTA */
     .cta-block {
       background: var(--text);
@@ -374,6 +428,7 @@
       <a href="#about">About</a>
       <a href="#topics">Topics</a>
       <a href="#prices">Prices</a>
+      <a href="#articles">Articles</a>
       <a href="https://x.com/0xDani" class="nav-cta">Follow on X →</a>
     </div>
   </nav>
@@ -467,6 +522,28 @@
     </div>
   </section>
 
+  <!-- ARTICLES -->
+  <section class="block white" id="articles">
+    <div class="section-inner">
+      <div class="section-label">Writing</div>
+      <h2 class="section-title">Latest Articles</h2>
+      <p class="section-sub">Thoughts on DeFi, protocols, and Web3 trends</p>
+      <div class="articles-grid">
+
+        <a href="https://x.com/0xDani/status/2027854933631099003" target="_blank" class="article-card">
+          <div class="article-tag">DeFi</div>
+          <h3>DeFi Lending in 2026: A Market That Finally Came of Age</h3>
+          <p>A look at how DeFi lending has evolved from early experimentation into a more mature financial sector. </p>
+          <div class="article-meta">
+            <span class="article-date">Mar 2026</span>
+            <span class="article-link">Read on X →</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <div class="cta-block">
     <h2>Stay ahead of the market.</h2>
@@ -531,3 +608,4 @@
 
 </body>
 </html>
+
