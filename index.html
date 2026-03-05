@@ -145,6 +145,16 @@
   </section>
 
   <section>
+    <h2>Crypto Calculator</h2>
+    <p style="margin-bottom: 16px;">Enter amount in USD to see how much crypto you get:</p>
+    <input id="usdInput" type="number" placeholder="Enter USD amount"
+      style="padding: 10px 16px; border-radius: 6px; border: 1px solid #00e5ff;
+      background: #1a1a3e; color: #fff; font-size: 1em; width: 100%; max-width: 300px;">
+    <button onclick="calculate()" class="btn" style="margin-left: 10px;">Calculate</button>
+    <div id="calcResult" style="margin-top: 20px; line-height: 2;"></div>
+  </section>
+
+  <section>
     <h2>Get in Touch</h2>
     <p>Have a project or question — reach out directly.</p>
     <a href="https://x.com/0xDani" class="btn">Follow on X</a>
@@ -160,8 +170,27 @@
           <p style="margin-top:10px">Ξ Ethereum: <strong style="color:#00e5ff">$${data.ethereum.usd.toLocaleString()}</strong></p>
         `;
       });
+    function calculate() {
+      const usd = parseFloat(document.getElementById("usdInput").value);
+      const prices = document.querySelectorAll("strong");
+
+      const btcPrice = parseFloat(prices[0].innerText.replace(/[$,]/g, ""));
+      const ethPrice = parseFloat(prices[1].innerText.replace(/[$,]/g, ""));
+
+      if (!usd || isNaN(btcPrice)) {
+        document.getElementById("calcResult").innerHTML =
+          "<p style='color:#ff6b6b'>Please enter a valid amount and wait for prices to load.</p>";
+        return;
+      }
+
+      document.getElementById("calcResult").innerHTML = `
+        <p>₿ Bitcoin: <strong style="color:#00e5ff">${(usd / btcPrice).toFixed(6)} BTC</strong></p>
+        <p>Ξ Ethereum: <strong style="color:#00e5ff">${(usd / ethPrice).toFixed(4)} ETH</strong></p>
+      `;
+    }
   </script>
 
 </body>
+
 
 </html>
