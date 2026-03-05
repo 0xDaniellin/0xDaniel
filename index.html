@@ -139,9 +139,10 @@
     </ul>
   </section>
 
-  <section>
+ <section>
     <h2>Live Prices</h2>
     <div id="prices">Loading...</div>
+    <button onclick="loadPrices()" class="btn" style="margin-top: 16px;">Refresh Prices</button>
   </section>
 
   <section>
@@ -165,17 +166,21 @@
     let btcPrice = 0;
     let ethPrice = 0;
 
-    fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd")
-      .then(res => res.json())
-      .then(data => {
-        btcPrice = data.bitcoin.usd;
-        ethPrice = data.ethereum.usd;
+    function loadPrices() {
+      document.getElementById("prices").innerHTML = "Updating...";
 
-        document.getElementById("prices").innerHTML = `
-          <p>₿ Bitcoin: <strong style="color:#00e5ff">$${btcPrice.toLocaleString()}</strong></p>
-          <p style="margin-top:10px">Ξ Ethereum: <strong style="color:#00e5ff">$${ethPrice.toLocaleString()}</strong></p>
-        `;
-      });
+      fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd")
+        .then(res => res.json())
+        .then(data => {
+          btcPrice = data.bitcoin.usd;
+          ethPrice = data.ethereum.usd;
+
+          document.getElementById("prices").innerHTML = `
+            <p>₿ Bitcoin: <strong style="color:#00e5ff">$${btcPrice.toLocaleString()}</strong></p>
+            <p style="margin-top:10px">Ξ Ethereum: <strong style="color:#00e5ff">$${ethPrice.toLocaleString()}</strong></p>
+          `;
+        });
+    }
 
     function calculate() {
       const usd = parseFloat(document.getElementById("usdInput").value);
@@ -191,10 +196,13 @@
         <p>Ξ Ethereum: <strong style="color:#00e5ff">${(usd / ethPrice).toFixed(4)} ETH</strong></p>
       `;
     }
+
+    loadPrices();
   </script>
 
 </body>
 
 
 </html>
+
 
