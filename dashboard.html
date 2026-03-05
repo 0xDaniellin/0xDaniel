@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeFi Dashboard — Daniel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #6c47ff;
+      --accent-light: #ede9ff;
+      --text: #0f0f1a;
+      --muted: #6b7280;
+      --bg: #ffffff;
+      --bg2: #f5f4ff;
+      --border: #e5e7eb;
+      --card: #ffffff;
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg2);
+      color: var(--text);
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 60px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 1.2em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9em;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* HEADER */
+    .page-header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 48px 60px 40px;
+    }
+    .page-header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 5px 14px;
+      border-radius: 50px;
+      font-size: 0.8em;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .header-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .page-header h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: 2em;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .page-header p { color: var(--muted); font-size: 0.95em; }
+    .header-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .search-input {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      font-size: 0.95em;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      outline: none;
+      width: 220px;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .refresh-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 0.9em;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .refresh-btn:hover { opacity: 0.85; }
+
+    /* MAIN */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    /* GRID */
+    .coins-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 16px;
+    }
+
+    .coin-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .coin-card:hover {
+      box-shadow: 0 4px 20px rgba(108,71,255,0.1);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .coin-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .coin-img {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+    }
+    .coin-name-block .coin-name {
+      font-size: 0.8em;
+      color: var(--muted);
+    }
+    .coin-name-block .coin-symbol {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 1em;
+    }
+    .coin-price {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.3em;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .coin-change {
+      font-size: 0.88em;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    .up { background: #dcfce7; color: #16a34a; }
+    .down { background: #fee2e2; color: #dc2626; }
+
+    /* RANK badge */
+    .coin-rank {
+      font-size: 0.75em;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* EMPTY / LOADING */
+    .status-msg {
+      text-align: center;
+      color: var(--muted);
+      padding: 60px 20px;
+      font-size: 1em;
+      grid-column: 1 / -1;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px;
+      color: var(--muted);
+      font-size: 0.85em;
+      border-top: 1px solid var(--border);
+      background: white;
+    }
+
+    @media (max-width: 600px) {
+      nav, .page-header { padding: 16px 20px; }
+      .page-header-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">0x<span>Daniel</span></a>
+    <a href="index.html" class="back-link">← Back to main page</a>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div>
+        <div class="header-badge">Live data</div>
+        <h1>📊 Dashboard</h1>
+        <p>Top 10 cryptocurrencies by market cap · Prices update in real time</p>
+      </div>
+      <div class="header-controls">
+        <input class="search-input" id="searchInput" type="text" placeholder="Search coin..." oninput="filterCoins()">
+        <button class="refresh-btn" onclick="loadCoins()">↻ Refresh</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="coins-grid" id="grid">
+      <div class="status-msg">Loading coins...</div>
+    </div>
+  </main>
+
+  <footer>© 2026 Daniel · DeFi & Web3</footer>
+
+  <script>
+    let allCoins = [];
+
+    function loadCoins() {
+      document.getElementById("grid").innerHTML = '<div class="status-msg">Updating...</div>';
+
+      fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,binancecoin,ripple,solana,dogecoin,cardano,avalanche-2,chainlink,uniswap&order=market_cap_desc")
+        .then(res => res.json())
+        .then(coins => {
+          allCoins = coins;
+          renderCoins(coins);
+        })
+        .catch(() => {
+          document.getElementById("grid").innerHTML = '<div class="status-msg">Failed to load. Try refreshing.</div>';
+        });
+    }
+
+    function renderCoins(coins) {
+      const grid = document.getElementById("grid");
+
+      if (coins.length === 0) {
+        grid.innerHTML = '<div class="status-msg">No coins found</div>';
+        return;
+      }
+
+      grid.innerHTML = coins.map((coin, i) => {
+        const change = coin.price_change_percentage_24h;
+        const changeClass = change >= 0 ? "up" : "down";
+        const changeSign = change >= 0 ? "+" : "";
+
+        return `
+          <div class="coin-card">
+            <div class="coin-header">
+              <img class="coin-img" src="${coin.image}" alt="${coin.name}">
+              <div class="coin-name-block">
+                <div class="coin-symbol">${coin.symbol.toUpperCase()}</div>
+                <div class="coin-name">${coin.name}</div>
+              </div>
+            </div>
+            <div class="coin-price">$${coin.current_price.toLocaleString()}</div>
+            <div class="coin-change ${changeClass}">${changeSign}${change.toFixed(2)}% 24h</div>
+            <div class="coin-rank"># ${coin.market_cap_rank} by market cap</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function filterCoins() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = allCoins.filter(c =>
+        c.name.toLowerCase().includes(query) ||
+        c.symbol.toLowerCase().includes(query)
+      );
+      renderCoins(filtered);
+    }
+
+    loadCoins();
+  </script>
+
+</body>
+</html>
